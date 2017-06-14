@@ -26,8 +26,9 @@
 window.onload = function(){
 
 
-        console.log("dasdasadf");
+        
         document.querySelector('#send-data').addEventListener('click',function(){
+        console.log("Alustan saatmist");
         tincan.sendStatement(
         {
         actor: {
@@ -40,6 +41,7 @@ window.onload = function(){
         id: "http://tincanapi.com/activities/sending-my-first-statement"
         }
         });
+        console.log("Lõpetasin saatmise");
         
         });
 
@@ -60,7 +62,40 @@ window.onload = function(){
         <div class="block" id="button-bar">
           <button class="action" id="send-data">SEND</button>
         </div>
+        <div class='block'>
+        <input type='checkbox' id='sender-data'>
+        <label for='sender-data'>Saada infot edasi Learning Lockerisse</label>
+        </div>
+         <div class="block" id="button-bar">
+         <button class="action" id="save-settings">Save</button>
+        </div>
       </form>
     </div>
+    <script>
+          function saveSettingsToServer() {
+        this.disabled = true;
+        $('#status').remove();
+        var dataNotify = $('#sender-data').is(':checked');
+        var settings = {
+          'dataNotify': dataNotify,
+        };
+    
+        // Save the settings on the server
+        google.script.run
+            .withSuccessHandler(
+              function(msg, element) {
+                showStatus('Saved settings', $('#button-bar'));
+                element.disabled = false;
+              })
+            .withFailureHandler(
+              function(msg, element) {
+                showStatus(msg, $('#button-bar'));
+                element.disabled = false;
+              })
+            .withUserObject(this)
+            .saveSettings(settings);
+      }
+    </script>
+    
  </body>
 </html>
