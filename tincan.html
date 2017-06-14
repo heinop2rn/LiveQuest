@@ -5,6 +5,7 @@
   <title>Simple TinCanJS Example</title>
   <script src="https://rawgit.com/RusticiSoftware/TinCanJS/master/build/tincan-min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
 
   <script>
    console.log("sent tada");
@@ -12,7 +13,7 @@
   {
       recordStores: [
           {
-              endpoint: "https://romil.ee/xAPI/",
+              endpoint: "https://htk.tlu.ee//lrs/data/xAPI",
               username: "65d86065e4aa635e545b1d71dcc8894c35ab686a",
               password: "cffe0080f36cc30383c0c9f9a075cd5030e75838",
               allowFail: false
@@ -22,33 +23,37 @@
 );
 
 
+window.onload = function(){
 
-  tincan.sendStatement(
-    {
+
+        console.log("dasdasadf");
+        document.querySelector('#send-data').addEventListener('click',function(){
+        tincan.sendStatement(
+        {
         actor: {
-            mbox: "mailto:your.email.address@example.com"
+        mbox: "mailto:your.email.address@example.com"
         },
         verb: {
-            id: "http://adlnet.gov/expapi/verbs/valmis-forms"
+        id: "http://adlnet.gov/expapi/verbs/valmis-forms"
         },
         target: {
-            id: "http://tincanapi.com/activities/sending-my-first-statement"
+        id: "http://tincanapi.com/activities/sending-my-first-statement"
         }
-    },
-
-);
-
-
-$(function() {
-        console.log("dasdasadf");
-        $('#send-data').click(tincan.sendStatment);
+        });
         
-      });
+        });
+
+       
+
+        
+}
+      
+     
 
   </script>
  </head>
  <body>
-      <div class="sidebar branding-below">
+      <div class="sidebar">
       <form>
     
     

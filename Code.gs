@@ -53,7 +53,8 @@ able to disable the notification triggers set by other collaborators.";
 function onOpen(e) {
   FormApp.getUi()
       .createAddonMenu()
-      .addItem('Send DATA', 'showSidebar')
+      .addItem('Send data to LRS', 'showSidebar')
+      .addItem('Show Data', 'showDataScreen')
       .addToUi();
 }
 
@@ -77,7 +78,36 @@ function onInstall(e) {
 function showSidebar() {
   var ui = HtmlService.createHtmlOutputFromFile('tincan')
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-      .setTitle('DATATA');
+      .setTitle('Share data with LRS');
   FormApp.getUi().showSidebar(ui);
+}
+
+function showDataScreen() {
+  var ui = HtmlService.createHtmlOutputFromFile('data')
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .setWidth(420)
+      .setHeight(270);
+  FormApp.getUi().showModalDialog(ui, 'About Form Notifications');
+}
+
+function showResponses() {
+  //console.log("vajutas");
+  var form = FormApp.openById('1HJ4y8IdOFGdBet8VK4XnMD1gN-2h7VJ62JQ_N3PQ4Nk');
+  var formResponses = form.getResponses();
+  Logger.log(formResponses.length);
+  var formResponse = formResponses[formResponses.length-1];
+  var itemResponses = formResponse.getItemResponses();
+  for (var j = 0; j < itemResponses.length; j++) {
+    var itemResponse = itemResponses[j];
+    var kys = itemResponse.getItem().getTitle();
+    Logger.log('Last response to the question "%s" was "%s"',
+               itemResponse.getItem().getTitle(),
+               itemResponse.getResponse());
+    
+    formData = document.createElement('span');
+    formData.innerHTML = kys;
+    var p = document.getElementById('p');
+    p.appendChild(formData);
+  }
 }
 
