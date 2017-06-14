@@ -102,6 +102,11 @@ function saveSettings(settings) {
   adjustFormSubmitTrigger();
 }
 
+function getSettings() {
+  var settings = PropertiesService.getDocumentProperties().getProperties();
+  return settings;
+}
+
 /**
  * Adjust the onFormSubmit trigger based on user's requests.
  */
@@ -171,23 +176,36 @@ function respondToFormSubmit(e) {
 
 
 function showResponses() {
-  //console.log("vajutas");
-  var form = FormApp.openById('1HJ4y8IdOFGdBet8VK4XnMD1gN-2h7VJ62JQ_N3PQ4Nk');
-  var formResponses = form.getResponses();
+  var formResponses = FormApp.getActiveForm().getResponses();
+  Logger.log(formResponses);
   Logger.log(formResponses.length);
   var formResponse = formResponses[formResponses.length-1];
+  Logger.log(formResponse);
   var itemResponses = formResponse.getItemResponses();
+  Logger.log(itemResponses);
   for (var j = 0; j < itemResponses.length; j++) {
     var itemResponse = itemResponses[j];
-    var kys = itemResponse.getItem().getTitle();
+    Logger.log(itemResponse);
+    var vastused = itemResponse.asCheckboxItem();
+    //var kys = itemResponse.getItem().getTitle();
     Logger.log('Last response to the question "%s" was "%s"',
                itemResponse.getItem().getTitle(),
                itemResponse.getResponse());
+    Logger.log(itemResponse.getItem().getType());
+   if(itemResponse.getItem().getType()=='CHECKBOX'){
+               Logger.log('tere');
+               var kysimus = itemResponse.asCheckboxItem();
+               var vastused = kysimus.getChoices();
+               Logger.log(item.asListItem().getChoices());
+               Logger.log(vastused);
+     
+   }
     
-    formData = document.createElement('span');
-    formData.innerHTML = kys;
-    var p = document.getElementById('p');
-    p.appendChild(formData);
+    
+    //formData = document.createElement('span');
+    //formData.innerHTML = kys;
+    //var p = document.getElementById('p');
+    //p.appendChild(formData);
   }
 }
 

@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
 
   <script>
-   console.log("sent tada");
   var tincan = new TinCan (
   {
       recordStores: [
@@ -72,13 +71,26 @@ window.onload = function(){
       </form>
     </div>
     <script>
-          function saveSettingsToServer() {
+    
+    $(function() {
+        $('#save-settings').click(saveSettingsToServer);
+//        google.script.run      
+           google.script.run.getSettings()
+           google.script.run.withSuccessHandler(loadSettings)
+           google.script.run.withFailureHandler(showStatus)
+           google.script.run.withUserObject($('#button-bar').get());
+     
+      });
+    
+    
+    function saveSettingsToServer() {
         this.disabled = true;
         $('#status').remove();
         var dataNotify = $('#sender-data').is(':checked');
         var settings = {
           'dataNotify': dataNotify,
         };
+//        console.log(settings);
     
         // Save the settings on the server
         google.script.run
@@ -94,6 +106,33 @@ window.onload = function(){
               })
             .withUserObject(this)
             .saveSettings(settings);
+//         console.log(settings);
+      } 
+      
+            /**
+       * Callback function that populates the notification options using
+       * previously saved values.
+       *
+       * @param {Object} settings The saved settings from the client.
+       */
+      function loadSettings(settings) {
+        console.log(settings);
+        if (settings.dataNotify === 'true') {
+          $('#data-sender').prop('checked', true);
+        }
+    }
+            /**
+       * Inserts a div that contains an status message after a given element.
+       *
+       * @param {String} msg The status message to display.
+       * @param {Object} element The element after which to display the Status.
+       */
+      function showStatus(msg, element) {
+         var div = $('<div>')
+             .attr('id', 'status')
+             .attr('class','error')
+             .text(msg);
+        $(element).after(div);
       }
     </script>
     
