@@ -1,5 +1,8 @@
 # LIVE QUEST VISUALIZATION
 
+## Info
+- This software is developed during Tallinn University School of Digital Technologies Software development Summer project.
+
 ## Features
 - Send Google Forms data to Learning Locker using Tin Can API
 - Tutorial website on TLÜ greeny server localhost:5555/~ericskri
@@ -8,25 +11,29 @@
 
 ## Installation
 Currently in development
-- Development phase installation
+- Development phase installation for testing
 1. Create a Google Form
-2. Open Google Form Script Editor
-3. Copy script files Code.gs, data.html and tincan.html to Script editor
-4. Chooose "Publish" from Google Script menu
-5. Choose "Test as add-on"
-6. "Test with latest code"
+2. Open Google Form
+3. Open Google Form Script Editor
+4. Copy script files Code.gs, data.html and Sidebar.html to Script editor
+5. Choose "Publish" from Google Script menu and "Test as add-on"
+6. Choose "Test with latest code"
 
-### Info
-- This software is developed during Tallinn University Software development Summer project.
-- School of Digital Technologies
+
 
 ## Technology and Versions
-- Learning Locker
-https://github.com/LearningLocker/learninglocker
+- Learning Locker https://github.com/LearningLocker/learninglocker
+Deployed on https://htk.tlu.ee/lrs/
 
-- Google Scripts
+- Google Apps Script
+
+- Google Forms
 
 - TinCan API Build 0.50.0 https://github.com/RusticiSoftware/TinCanJS
+
+- xAPI-Dashboard https://github.com/adlnet/xAPI-Dashboard
+
+- Tallinn University Greeny and LIN2 server for testing
 
 ### Developers
 - Heino Pärn - heinop2rn@gmail.com
