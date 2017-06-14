@@ -76,7 +76,7 @@ function onInstall(e) {
  * configuring the notifications this add-on will produce.
  */
 function showSidebar() {
-  var ui = HtmlService.createHtmlOutputFromFile('tincan')
+  var ui = HtmlService.createHtmlOutputFromFile('Sidebar')
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
       .setTitle('Share data with LRS');
   FormApp.getUi().showSidebar(ui);
