@@ -7,6 +7,14 @@
 - Analyze collected data in Learning Locker
 
 ## Installation
+Currently in development
+- Development phase installation
+1. Create a Google Form
+2. Open Google Form Script Editor
+3. Copy script files Code.gs, data.html and tincan.html to Script editor
+4. Chooose "Publish" from Google Script menu
+5. Choose "Test as add-on"
+6. "Test with latest code"
 
 ### Info
 - This software is developed during Tallinn University Software development Summer project.
