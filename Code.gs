@@ -54,6 +54,7 @@ function onOpen(e) {
   FormApp.getUi()
       .createAddonMenu()
       .addItem('Andmete saatmine', 'showSidebar')
+      .addItem('xApi Wrapper', 'showSidebar2')
       .addItem('Show Data', 'showDataScreen')
       .addToUi();
 }
@@ -79,6 +80,13 @@ function showSidebar() {
   var ui = HtmlService.createHtmlOutputFromFile('Sidebar')
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
       .setTitle('Share data with LL');
+  FormApp.getUi().showSidebar(ui);
+}
+
+function showSidebar2() {
+  var ui = HtmlService.createHtmlOutputFromFile('Sidebar2')
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .setTitle('Share XapiWRAPPER');
   FormApp.getUi().showSidebar(ui);
 }
 
@@ -177,27 +185,27 @@ function respondToFormSubmit(e) {
 
 function showResponses() {
   var formResponses = FormApp.getActiveForm().getResponses();
-  Logger.log(formResponses);
+  //Logger.log(formResponses);
   Logger.log(formResponses.length);
   var formResponse = formResponses[formResponses.length-1];
-  Logger.log(formResponse);
+  //Logger.log(formResponse);
   var itemResponses = formResponse.getItemResponses();
-  Logger.log(itemResponses);
+  //Logger.log(itemResponses);
   for (var j = 0; j < itemResponses.length; j++) {
     var itemResponse = itemResponses[j];
-    Logger.log(itemResponse);
-    var vastused = itemResponse.asCheckboxItem();
+    //Logger.log(itemResponse);
+    //var vastused = itemResponse.asCheckboxItem();
     //var kys = itemResponse.getItem().getTitle();
     Logger.log('Last response to the question "%s" was "%s"',
                itemResponse.getItem().getTitle(),
                itemResponse.getResponse());
     Logger.log(itemResponse.getItem().getType());
    if(itemResponse.getItem().getType()=='CHECKBOX'){
-               Logger.log('tere');
-               var kysimus = itemResponse.asCheckboxItem();
-               var vastused = kysimus.getChoices();
-               Logger.log(item.asListItem().getChoices());
-               Logger.log(vastused);
+               //Logger.log('tere');
+               //var kysimus = itemResponse.asCheckboxItem();
+               //var vastused = kysimus.getChoices();
+               //Logger.log(item.asListItem().getChoices());
+               //Logger.log(vastused);
      
    }
     
