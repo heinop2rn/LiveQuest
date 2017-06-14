@@ -53,7 +53,7 @@ able to disable the notification triggers set by other collaborators.";
 function onOpen(e) {
   FormApp.getUi()
       .createAddonMenu()
-      .addItem('Send data to LRS', 'showSidebar')
+      .addItem('Andmete saatmine', 'showSidebar')
       .addItem('Show Data', 'showDataScreen')
       .addToUi();
 }
@@ -76,9 +76,9 @@ function onInstall(e) {
  * configuring the notifications this add-on will produce.
  */
 function showSidebar() {
-  var ui = HtmlService.createHtmlOutputFromFile('tincan')
+  var ui = HtmlService.createHtmlOutputFromFile('Sidebar')
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-      .setTitle('Share data with LRS');
+      .setTitle('Share data with LL');
   FormApp.getUi().showSidebar(ui);
 }
 
@@ -87,27 +87,125 @@ function showDataScreen() {
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
       .setWidth(420)
       .setHeight(270);
-  FormApp.getUi().showModalDialog(ui, 'About Form Notifications');
+  FormApp.getUi().showModalDialog(ui, 'Test-andmed');
 }
 
+/**
+ * Save sidebar settings to this form's Properties, and update the onFormSubmit
+ * trigger as needed.
+ *
+ * @param {Object} settings An Object containing key-value
+ *      pairs to store.
+ */
+function saveSettings(settings) {
+  PropertiesService.getDocumentProperties().setProperties(settings);
+  adjustFormSubmitTrigger();
+}
+
+function getSettings() {
+  var settings = PropertiesService.getDocumentProperties().getProperties();
+  return settings;
+}
+
+/**
+ * Adjust the onFormSubmit trigger based on user's requests.
+ */
+function adjustFormSubmitTrigger() {
+  var form = FormApp.getActiveForm();
+  var triggers = ScriptApp.getUserTriggers(form);
+  var settings = PropertiesService.getDocumentProperties();
+  var triggerNeeded =
+      settings.getProperty('dataNotify') == 'true';
+
+  // Create a new trigger if required; delete existing trigger
+  //   if it is not needed.
+  var existingTrigger = null;
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getEventType() == ScriptApp.EventType.ON_FORM_SUBMIT) {
+      existingTrigger = triggers[i];
+      break;
+    }
+  }
+  if (triggerNeeded && !existingTrigger) {
+    var trigger = ScriptApp.newTrigger('respondToFormSubmit')
+        .forForm(form)
+        .onFormSubmit()
+        .create();
+  } else if (!triggerNeeded && existingTrigger) {
+    ScriptApp.deleteTrigger(existingTrigger);
+  }
+}
+
+
+/**
+ * Responds to a form submission event if an onFormSubmit trigger has been
+ * enabled.
+ *
+ * @param {Object} e The event parameter created by a form
+ *      submission; see
+ *      https://developers.google.com/apps-script/understanding_events
+ */
+function respondToFormSubmit(e) {
+  var settings = PropertiesService.getDocumentProperties();
+  var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL);
+
+  // Check if the actions of the trigger require authorizations that have not
+  // been supplied yet -- if so, warn the active user via email (if possible).
+  // This check is required when using triggers with add-ons to maintain
+  // functional triggers.
+  if (authInfo.getAuthorizationStatus() ==
+      ScriptApp.AuthorizationStatus.REQUIRED) {
+    // Re-authorization is required. In this case, the user needs to be alerted
+    // that they need to reauthorize; the normal trigger action is not
+    // conducted, since authorization needs to be provided first. Send at
+    // most one 'Authorization Required' email a day, to avoid spamming users
+    // of the add-on.
+    sendReauthorizationRequest();
+  } else {
+    // All required authorizations have been granted, so continue to respond to
+    // the trigger event.
+
+    // Check if the form creator needs to be notified; if so, construct and
+    // send the notification.
+    if (settings.getProperty('dataNotify') == 'true') {
+      sendCreatorNotification();
+    }
+  }
+}
+
+
+
 function showResponses() {
-  //console.log("vajutas");
-  var form = FormApp.openById('1HJ4y8IdOFGdBet8VK4XnMD1gN-2h7VJ62JQ_N3PQ4Nk');
-  var formResponses = form.getResponses();
+  var formResponses = FormApp.getActiveForm().getResponses();
+  Logger.log(formResponses);
   Logger.log(formResponses.length);
   var formResponse = formResponses[formResponses.length-1];
+  Logger.log(formResponse);
   var itemResponses = formResponse.getItemResponses();
+  Logger.log(itemResponses);
   for (var j = 0; j < itemResponses.length; j++) {
     var itemResponse = itemResponses[j];
-    var kys = itemResponse.getItem().getTitle();
+    Logger.log(itemResponse);
+    var vastused = itemResponse.asCheckboxItem();
+    //var kys = itemResponse.getItem().getTitle();
     Logger.log('Last response to the question "%s" was "%s"',
                itemResponse.getItem().getTitle(),
                itemResponse.getResponse());
+    Logger.log(itemResponse.getItem().getType());
+   if(itemResponse.getItem().getType()=='CHECKBOX'){
+               Logger.log('tere');
+               var kysimus = itemResponse.asCheckboxItem();
+               var vastused = kysimus.getChoices();
+               Logger.log(item.asListItem().getChoices());
+               Logger.log(vastused);
+     
+   }
     
-    formData = document.createElement('span');
-    formData.innerHTML = kys;
-    var p = document.getElementById('p');
-    p.appendChild(formData);
+    
+    //formData = document.createElement('span');
+    //formData.innerHTML = kys;
+    //var p = document.getElementById('p');
+    //p.appendChild(formData);
   }
 }
 
