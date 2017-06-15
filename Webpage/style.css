@@ -1,6 +1,11 @@
 body {
 	padding-top: 51px;
-	background-image: url("https://d2r72yk5wmppdj.cloudfront.net/m/3ced976c1b910852/Low-Classroom_Traditional_Introduction-Banner.jpg");
+	background: #f7fbfc; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #f7fbfc 0%, #d9edf2 40%, #add9e4 100%);/
+	background: -webkit-linear-gradient(-45deg, #f7fbfc 0%,#d9edf2 40%,#add9e4 100%); 
+	background: linear-gradient(135deg, #f7fbfc 0%,#d9edf2 40%,#add9e4 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7fbfc', endColorstr='#add9e4',GradientType=1 ); 
+	/*background-image: url("https://d2r72yk5wmppdj.cloudfront.net/m/3ced976c1b910852/Low-Classroom_Traditional_Introduction-Banner.jpg");*/
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
@@ -12,13 +17,6 @@ body {
 .text-center {
   font-weight: bold;
   color: #000000;
-}
-.col-xs-12 {
-  background-color: #fff;
-}
-.box{
-	padding-top: 20px;
-	background-color: rgba(255,255,255, 0.6);
 }
 
 .btn{
