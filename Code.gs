@@ -55,7 +55,7 @@ function onOpen(e) {
       .createAddonMenu()
       .addItem('Andmete saatmine', 'showSidebar')
       .addItem('xApi Wrapper', 'showSidebar2')
-      .addItem('Show Data', 'showDataScreen')
+      //.addItem('Show Data', 'showDataScreen')
       .addToUi();
 }
 
@@ -185,20 +185,25 @@ function respondToFormSubmit(e) {
 
 function showResponses() {
   var formResponses = FormApp.getActiveForm().getResponses();
-  //Logger.log(formResponses);
+  var formId = FormApp.getActiveForm().getId();
+  var title = FormApp.getActiveForm().getTitle();
+  var form = FormApp.getActiveForm();
+  Logger.log(form);
+  Logger.log(formId);
+  Logger.log(title);
   Logger.log(formResponses.length);
   var formResponse = formResponses[formResponses.length-1];
-  //Logger.log(formResponse);
   var itemResponses = formResponse.getItemResponses();
-  //Logger.log(itemResponses);
   for (var j = 0; j < itemResponses.length; j++) {
     var itemResponse = itemResponses[j];
-    //Logger.log(itemResponse);
     //var vastused = itemResponse.asCheckboxItem();
     //var kys = itemResponse.getItem().getTitle();
-    Logger.log('Last response to the question "%s" was "%s"',
+    Logger.log('Last response to the question "%s" was "%s". ID: "%s"',
                itemResponse.getItem().getTitle(),
-               itemResponse.getResponse());
+               itemResponse.getResponse(),
+               itemResponse.getItem().getId());
+               
+   // Logger.log(itemResponse.getResponse().isCorrectAnswer());
     Logger.log(itemResponse.getItem().getType());
    if(itemResponse.getItem().getType()=='CHECKBOX'){
                //Logger.log('tere');
@@ -208,12 +213,12 @@ function showResponses() {
                //Logger.log(vastused);
      
    }
-    
-    
-    //formData = document.createElement('span');
-    //formData.innerHTML = kys;
-    //var p = document.getElementById('p');
-    //p.appendChild(formData);
+
   }
+}
+
+function sendId() {
+ var formId = FormApp.getActiveForm().getId();
+  return formId;
 }
 

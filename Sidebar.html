@@ -21,23 +21,29 @@
       ]
   }
 );
-
+var formID;
+console.log(formID);
 window.onload = function(){
-        
+        var nimi='Tiit';
+        console.log(formID);
         document.querySelector('#send-data').addEventListener('click',function(){
         console.log("Alustan saatmist");
+        var t0=performance.now();
         tincan.sendStatement(
         {
   actor: {
-    name: "Sally Glider",
-    mbox: "mailto:sally@example.com"
+      name: "LiveQuest TEST",
+      account: { 
+    homePage: "https://docs.google.com/forms",
+    name: formID
+  }
   },
   verb: {
-    id: "http://adlnet.gov/expapi/verbs/experienced",
-    display: {"en-US": "experienced"}
+    id: "http://adlnet.gov/expapi/verbs/completed",
+    display: {"en-US": "completed"}
   },
   object: {
-    id: "http://example.com/activities/solo-hang-gliding",
+    id: "http://www.tlu.ee/~lauriv/activities/solo-hang-gliding",
       definition: {
         type: "http://adlnet.gov/expapi/activities/course",
         name: { "en-US": "Solo Hang Gliding" }
@@ -54,15 +60,13 @@ window.onload = function(){
     }
   }
 });
-        console.log("Lõpetasin saatmise");
+var t1=performance.now();
+console.log("Saatmine kestis"+(t1 - t0) + " milliseconds.");
+
         
         });
 
-var load = google.script.run.withSuccessHandler(loadSettings);
-console.log(load);
-var answer = google.script.run.getSettings();
-console.log('answer: '+ answer);
-        
+    
 }
       
      
@@ -84,18 +88,25 @@ console.log('answer: '+ answer);
          <div class="block" id="button-bar">
          <button class="action" id="save-settings">Save</button>
         </div>
+
       </form>
     </div>
     <script>
     
     $(function() {
-        $('#save-settings').click(saveSettingsToServer);
+        $('#save-settings').click(saveSettingsToServer);        
         google.script.run      
                          .withSuccessHandler(loadSettings)
                          .withFailureHandler(showStatus)
                          .withUserObject($('#button-bar').get())
                          .getSettings();
-     
+                         
+                       
+        google.script.run      
+                         .withSuccessHandler(loadId)
+                         .withFailureHandler(showStatus)
+                         .sendId();
+        
       });
     
     
@@ -122,7 +133,7 @@ console.log('answer: '+ answer);
               })
             .withUserObject(this)
             .saveSettings(settings);
-         console.log(settings);
+        // console.log(settings);
       } 
       
             /**
@@ -132,10 +143,16 @@ console.log('answer: '+ answer);
        * @param {Object} settings The saved settings from the client.
        */
       function loadSettings(settings) {
-        console.log(settings);
+       // console.log(settings);
         if (settings.dataNotify == 'true') {
           $('#data-sender').prop('checked', true);
         }
+    }
+    
+    function loadId(id){
+        console.log(id);
+        formID=id;
+        console.log(formID);
     }
             /**
        * Inserts a div that contains an status message after a given element.
