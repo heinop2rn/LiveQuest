@@ -1,113 +1,58 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-  <title>LQV</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- <style>
-  body {
-  padding-top: 51px;
-  background-image: url("https://d2r72yk5wmppdj.cloudfront.net/m/3ced976c1b910852/Low-Classroom_Traditional_Introduction-Banner.jpg");
-	no-repeat center center fixed;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-	background-color: #cccccc;
-}
-.text-center {
-  padding-top: 10%;
-}
-.col-xs-12 {
-  background-color: #fff;
-}
-#sidebar {
-  height: 100%;
-  padding-right: 0;
-  padding-top: 20px;
-}
-#sidebar .nav {
-  width: 35%;
-}
-#sidebar li {
-  border:0 #f2f2f2 solid;
-  border-bottom-width:1px;
-}
+	<head>
+		<title>LQV</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+	<div class="page-container">
+		<!-- navbar -->
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+		   <div class="container">
+			   <a class="navbar-brand navbar-right" href="?logout=1">Log in</a>
+				<div class="navbar-header">
+				   <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
+					 <span class="icon-bar"></span>
+					 <span class="icon-bar"></span>
+					 <span class="icon-bar"></span>
+				   </button>
+					<div class="collapse navbar-collapse" id="theNavigation">
+						<ul class="nav navbar-nav">
+							<a class="navbar-brand" href="LQV.html">LQV</a>
+							<li class="active"><a href="LQV.html">Home</a></li>	
+							<li><a href="download.html">Add-on</a></li>		
+							<li><a href="graphs.html">Forms</a></li>	
+						</ul>
+					</div>
+				</div>
+		   </div>
+		</div>
+		  
+		<div class=" box">
+			<!-- main area -->
+			<div class=" text-center ">
+				<h1>Live Quest Visualization</h1><br>
+				<p style="font-size:15px">Welcome to the homepage of our Google add-on!</p><br>
 
-/* collapsed sidebar styles */
-@media screen and (max-width: 767px) {
-  .row-offcanvas {
-    position: relative;
-    -webkit-transition: all 0.25s ease-out;
-    -moz-transition: all 0.25s ease-out;
-    transition: all 0.25s ease-out;
-  }
-  .row-offcanvas-right
-  .sidebar-offcanvas {
-    right: -41.6%;
-  }
-
-  .row-offcanvas-left
-  .sidebar-offcanvas {
-    left: -41.6%;
-  }
-  .row-offcanvas-right.active {
-    right: 41.6%;
-  }
-  .row-offcanvas-left.active {
-    left: 41.6%;
-  }
-  .sidebar-offcanvas {
-    position: absolute;
-    top: 0;
-    width: 41.6%;
-  }
-  .contain{
-
-  }
-}
-</style>
-</head>
-<div class="page-container">
-  
-	<!-- navbar -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-       <div class="container">
-		   <a class="navbar-brand navbar-right" href="?logout=1">Log in</a>
-			<div class="navbar-header">
-			   <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
-				 <span class="icon-bar"></span>
-				 <span class="icon-bar"></span>
-				 <span class="icon-bar"></span>
-			   </button>
-				<div class="collapse navbar-collapse" id="theNavigation">
-					<ul class="nav navbar-nav">
-					<a class="navbar-brand" href="LQV.html">LQV</a>
-					<li class="active"><a href="LQV.html">Home</a></li>	
-					<li><a href="download.html">Add-on</a></li>		
-					<li><a href="graphs.html">Forms</a></li>	
-					</ul>
+				<button class="btn" data-toggle="collapse" data-target="#info1"><b> What is this?</b></button>
+				<div id="info1" class="collapse" style="font-size:15px"><br>
+					<p>This is an add-on, that was developed for teachers, who use google forms to create tests for students to assess them.<br>
+					You, as a creator of the form, get an overview of the responses of students for each form <br>
+					as a series of graphs in the <a href="graphs.html">Forms menu</a>.</p>
+				</div><br><br>
+				
+				<button class="btn" data-toggle="collapse" data-target="#info2"><b> How do I use it?</b></button>
+				<div id="info2" class="collapse" style="font-size:15px"><br>
+					<p>The link to the add-on can be found in the <a href="download.html">Add-on menu</a>,<br>
+					where you can also find the instructions for using it in your form.</p><br><br>
 				</div>
 			</div>
-       </div>
-    </div>
-      
-    <div class="container">
-      <div class="row row-offcanvas row-offcanvas-left">
-        <!-- main area -->
-        <div class=" text-center contain">
-			<h1>Live Quest Visualization</h1>
-			<p style="font-size:25px">Welcome to the homepage of our Google add-on. This add-on was developed for teachers, who use google forms to
-			create tests for students to assess them. The creator of the form gets an overview of the answers of students for
-			each form as a series of graphs in the <a href="graphs.html">Forms menu</a>. The link to the add-on can be found in the <a href="download.html">Add-on menu</a>, where you can also find the instructions
-			for using it in your form.</p>
-
-        </div>
-    </div><!--/.row-->
-  </div><!--/.container-->
-</div><!--/.page-container-->
+		</div><!--/.intro-->
+	</div><!--/.text-center-->
+</body>
 </html>

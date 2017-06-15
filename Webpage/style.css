@@ -1,0 +1,41 @@
+body {
+	padding-top: 51px;
+	background-image: url("https://d2r72yk5wmppdj.cloudfront.net/m/3ced976c1b910852/Low-Classroom_Traditional_Introduction-Banner.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+	background-color: #cccccc;
+}
+.text-center {
+  font-weight: bold;
+  color: #000000;
+}
+.col-xs-12 {
+  background-color: #fff;
+}
+.box{
+	padding-top: 20px;
+	background-color: rgba(255,255,255, 0.6);
+}
+
+.btn{
+	background-color: transparent;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	transition: all 0.5s;
+	border: 2px solid #666666;
+}
+
+.btn:hover{
+	background-color: rgba(191, 191, 191, 0.5);
+	border: 2px solid white;
+}
