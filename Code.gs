@@ -184,41 +184,44 @@ function respondToFormSubmit(e) {
 
 
 function showResponses() {
-  var formResponses = FormApp.getActiveForm().getResponses();
+  
+  var responses = [];
+  var reponse = [];
+  var answer = [];
   var formId = FormApp.getActiveForm().getId();
   var title = FormApp.getActiveForm().getTitle();
-  var form = FormApp.getActiveForm();
-  Logger.log(form);
+  var formResponses = FormApp.getActiveForm().getResponses();
   Logger.log(formId);
   Logger.log(title);
   Logger.log(formResponses.length);
-  var formResponse = formResponses[formResponses.length-1];
-  var itemResponses = formResponse.getItemResponses();
-  for (var j = 0; j < itemResponses.length; j++) {
-    var itemResponse = itemResponses[j];
-    //var vastused = itemResponse.asCheckboxItem();
-    //var kys = itemResponse.getItem().getTitle();
-    Logger.log('Last response to the question "%s" was "%s". ID: "%s"',
+  
+ 
+  for (var i = 0; i < formResponses.length; i++) {
+      var formResponse = formResponses[i];
+      var itemResponses = formResponse.getItemResponses();
+  
+      Logger.log(itemResponses.length);
+  
+      for (var j = 0; j < itemResponses.length; j++) {
+        
+               var itemResponse = itemResponses[j];
+        
+               Logger.log('Question: "%s" \n Answer: "%s" \n Type: "%s"',
                itemResponse.getItem().getTitle(),
                itemResponse.getResponse(),
-               itemResponse.getItem().getId());
-               
-   // Logger.log(itemResponse.getResponse().isCorrectAnswer());
-    Logger.log(itemResponse.getItem().getType());
-   if(itemResponse.getItem().getType()=='CHECKBOX'){
-               //Logger.log('tere');
-               //var kysimus = itemResponse.asCheckboxItem();
-               //var vastused = kysimus.getChoices();
-               //Logger.log(item.asListItem().getChoices());
-               //Logger.log(vastused);
-     
-   }
-
+               itemResponse.getItem().getType());
+        
+       }
   }
 }
 
+
 function sendId() {
  var formId = FormApp.getActiveForm().getId();
-  return formId;
+ var title = FormApp.getActiveForm().getTitle();
+ 
+ return [formId, title];
+  
 }
+
 

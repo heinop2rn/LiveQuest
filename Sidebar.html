@@ -1,5 +1,4 @@
 
-
 <html>
  <head>
   <title>Simple TinCanJS Example</title>
@@ -22,25 +21,25 @@
   }
 );
 var formID;
-console.log(formID);
+//console.log(formID);
 window.onload = function(){
         var nimi='Tiit';
         console.log(formID);
         document.querySelector('#send-data').addEventListener('click',function(){
         console.log("Alustan saatmist");
+        console.log(formID);
         var t0=performance.now();
         tincan.sendStatement(
         {
   actor: {
-      name: "LiveQuest TEST",
+      name: formTitle,
       account: { 
     homePage: "https://docs.google.com/forms",
     name: formID
   }
   },
   verb: {
-    id: "http://adlnet.gov/expapi/verbs/completed",
-    display: {"en-US": "completed"}
+    id: "http://adlnet.gov/expapi/verbs/answered",
   },
   object: {
     id: "http://www.tlu.ee/~lauriv/activities/solo-hang-gliding",
@@ -48,16 +47,6 @@ window.onload = function(){
         type: "http://adlnet.gov/expapi/activities/course",
         name: { "en-US": "Solo Hang Gliding" }
       }
-  },
-  context: {
-    instructor: {
-      name: "Irene Instructor",
-      mbox: "mailto:irene@example.com"
-    },
-    contextActivities:{
-      parent: { "id": "http://example.com/activities/hang-gliding-class-a" },
-      grouping: { "id": "http://example.com/activities/hang-gliding-school" }
-    }
   }
 });
 var t1=performance.now();
@@ -149,10 +138,12 @@ console.log("Saatmine kestis"+(t1 - t0) + " milliseconds.");
         }
     }
     
-    function loadId(id){
-        console.log(id);
-        formID=id;
-        console.log(formID);
+    function loadId(info){
+        console.log(info);
+        formID=info[0];
+        //console.log(formID);
+        formTitle = info[1];
+        console.log(formTitle);
     }
             /**
        * Inserts a div that contains an status message after a given element.
