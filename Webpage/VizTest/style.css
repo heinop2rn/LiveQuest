@@ -1,0 +1,39 @@
+body {
+	padding-top: 51px;
+	background: #f7fbfc; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #f7fbfc 0%, #d9edf2 40%, #add9e4 100%);/
+	background: -webkit-linear-gradient(-45deg, #f7fbfc 0%,#d9edf2 40%,#add9e4 100%); 
+	background: linear-gradient(135deg, #f7fbfc 0%,#d9edf2 40%,#add9e4 100%); 
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7fbfc', endColorstr='#add9e4',GradientType=1 ); 
+	/*background-image: url("https://d2r72yk5wmppdj.cloudfront.net/m/3ced976c1b910852/Low-Classroom_Traditional_Introduction-Banner.jpg");*/
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+	background-color: #cccccc;
+}
+.text-center {
+  font-weight: bold;
+  color: #000000;
+}
+
+.btn{
+	background-color: transparent;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	transition: all 0.5s;
+	border: 2px solid #666666;
+}
+
+.btn:hover{
+	background-color: rgba(191, 191, 191, 0.5);
+	border: 2px solid white;
+}
