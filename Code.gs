@@ -43,6 +43,8 @@ the same form will be able to adjust the notification settings, but will not be 
 able to disable the notification triggers set by other collaborators.";
 
 
+var counter = 2;
+
 /**
  * Adds a custom menu to the active form to show the add-on sidebar.
  *
@@ -145,40 +147,9 @@ function adjustFormSubmitTrigger() {
 }
 
 
-/**
- * Responds to a form submission event if an onFormSubmit trigger has been
- * enabled.
- *
- * @param {Object} e The event parameter created by a form
- *      submission; see
- *      https://developers.google.com/apps-script/understanding_events
- */
-function respondToFormSubmit(e) {
-  var settings = PropertiesService.getDocumentProperties();
-  var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL);
-
-  // Check if the actions of the trigger require authorizations that have not
-  // been supplied yet -- if so, warn the active user via email (if possible).
-  // This check is required when using triggers with add-ons to maintain
-  // functional triggers.
-  if (authInfo.getAuthorizationStatus() ==
-      ScriptApp.AuthorizationStatus.REQUIRED) {
-    // Re-authorization is required. In this case, the user needs to be alerted
-    // that they need to reauthorize; the normal trigger action is not
-    // conducted, since authorization needs to be provided first. Send at
-    // most one 'Authorization Required' email a day, to avoid spamming users
-    // of the add-on.
-    sendReauthorizationRequest();
-  } else {
-    // All required authorizations have been granted, so continue to respond to
-    // the trigger event.
-
-    // Check if the form creator needs to be notified; if so, construct and
-    // send the notification.
-    if (settings.getProperty('dataNotify') == 'true') {
-      sendCreatorNotification();
-    }
-  }
+function notSentResponses(){
+  counter++;
+  Logger.log(counter);
 }
 
 
@@ -186,33 +157,42 @@ function respondToFormSubmit(e) {
 function showResponses() {
   
   var responses = [];
-  var reponse = [];
-  var answer = [];
   var formId = FormApp.getActiveForm().getId();
   var title = FormApp.getActiveForm().getTitle();
   var formResponses = FormApp.getActiveForm().getResponses();
-  Logger.log(formId);
-  Logger.log(title);
-  Logger.log(formResponses.length);
+  //Logger.log(formId);
+  //Logger.log(title);
+  //Logger.log(formResponses.length);
   
  
   for (var i = 0; i < formResponses.length; i++) {
+      var response = [];
       var formResponse = formResponses[i];
       var itemResponses = formResponse.getItemResponses();
   
-      Logger.log(itemResponses.length);
+      //Logger.log(itemResponses.length);
   
       for (var j = 0; j < itemResponses.length; j++) {
-        
+               var answer = []
                var itemResponse = itemResponses[j];
         
-               Logger.log('Question: "%s" \n Answer: "%s" \n Type: "%s"',
-               itemResponse.getItem().getTitle(),
-               itemResponse.getResponse(),
-               itemResponse.getItem().getType());
+               //Logger.log('Question: "%s" \n Answer: "%s" \n Type: "%s"',
+               //itemResponse.getItem().getTitle(),
+               //itemResponse.getResponse(),
+               //itemResponse.getItem().getType());
+               answer.push(formId);
+               answer.push(title)
+               answer.push(itemResponse.getItem().getTitle());
+               answer.push(String(itemResponse.getResponse()));
+               answer.push(String(itemResponse.getItem().getType()));
         
-       }
+               response.push(answer); 
+        
+      }
+      responses.push(response);
+      Logger.log(responses);
   }
+  return responses;
 }
 
 

@@ -12,7 +12,7 @@
   {
       recordStores: [
           {
-              endpoint: "https://htk.tlu.ee//lrs/data/xAPI",
+              endpoint: "https://htk.tlu.ee/lrs/data/xAPI",
               username: "65d86065e4aa635e545b1d71dcc8894c35ab686a",
               password: "cffe0080f36cc30383c0c9f9a075cd5030e75838",
               allowFail: false
@@ -23,31 +23,52 @@
 var formID;
 //console.log(formID);
 window.onload = function(){
-        var nimi='Tiit';
         console.log(formID);
         document.querySelector('#send-data').addEventListener('click',function(){
         console.log("Alustan saatmist");
         console.log(formID);
+        console.log(formTitle);
+        console.log(questionType);
+        console.log(questionTitle);
+        console.log(questionAnswer);
         var t0=performance.now();
         tincan.sendStatement(
         {
-  actor: {
-      name: formTitle,
-      account: { 
-    homePage: "https://docs.google.com/forms",
-    name: formID
+  "actor": {
+      "name": formTitle,
+      "account": { 
+         "homePage": "https://docs.google.com/forms",
+         "name": formID
   }
   },
-  verb: {
-    id: "http://adlnet.gov/expapi/verbs/answered",
+  "verb": {
+    "id": "http://adlnet.gov/expapi/verbs/answered",
   },
-  object: {
-    id: "http://www.tlu.ee/~lauriv/activities/solo-hang-gliding",
+  "object": {
+    "id": "http://www.tlu.ee/~lauriv/activities/test",
+      "definition": {
+	"description": {
+		"en-US": questionTitle
+	},
+//	"type": "http://adlnet.gov/expapi/activities/cmi.interaction",
+    "type": "http://www.tlu.ee/~lauriv/activities/"+questionType,
+	"interactionType": "other",
+    "correctResponsesPattern": [questionAnswer]
+}
+  }
+  
+/*  object: {
+    id: "http://adlnet.gov/expapi/activities/1",
+    name: questionTitle,
       definition: {
-        type: "http://adlnet.gov/expapi/activities/course",
-        name: { "en-US": "Solo Hang Gliding" }
-      }
-  }
+       Qname: questionTitle,
+       Qtype: questionType,
+       Qanswer: questionAnswer,
+       type: "http://adlnet.gov/expapi/activities/question",
+       interactionType: "other"
+      },
+      
+  }*/
 });
 var t1=performance.now();
 console.log("Saatmine kestis"+(t1 - t0) + " milliseconds.");
@@ -95,6 +116,11 @@ console.log("Saatmine kestis"+(t1 - t0) + " milliseconds.");
                          .withSuccessHandler(loadId)
                          .withFailureHandler(showStatus)
                          .sendId();
+                         
+        google.script.run      
+                         .withSuccessHandler(getResponses)
+                         .withFailureHandler(showStatus)
+                         .showResponses();
         
       });
     
@@ -138,12 +164,21 @@ console.log("Saatmine kestis"+(t1 - t0) + " milliseconds.");
         }
     }
     
-    function loadId(info){
-        console.log(info);
-        formID=info[0];
+    function loadId(inff){
+        console.log("info"+inff);
+        formID=inff[0];
         //console.log(formID);
-        formTitle = info[1];
-        console.log(formTitle);
+        formTitle = inff[1];
+    }
+    
+    function getResponses(info){
+        console.log(info);
+        questionTitle = info[0][3][2];
+        console.log(questionTitle);
+        questionAnswer = info[0][3][3];
+        console.log(questionAnswer);
+        questionType = info[0][3][4];
+        console.log(questionType);
     }
             /**
        * Inserts a div that contains an status message after a given element.
