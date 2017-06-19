@@ -33,10 +33,9 @@ body {
     margin: 4px 2px;
     cursor: pointer;
 	transition: all 0.5s;
-	border: 2px solid #666666;
+	border: 2px solid white;
 }
 
 .btn:hover{
-	background-color: rgba(191, 191, 191, 0.5);
-	border: 2px solid white;
+	border: 2px solid black;
 }
