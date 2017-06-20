@@ -28,20 +28,10 @@
  * A global constant String holding the title of the add-on. This is
  * used to identify the add-on in the notification emails.
  */
-var ADDON_TITLE = 'TINCAN';
+var ADDON_TITLE = 'LiveQuest Visualization';
 
-/**
- * A global constant 'notice' text to include with each email
- * notification.
- */
-var NOTICE = "Form Notifications was created as an sample add-on, and is meant for \
-demonstration purposes only. It should not be used for complex or important \
-workflows. The number of notifications this add-on produces are limited by the \
-owner's available email quota; it will not send email notifications if the \
-owner's daily email quota has been exceeded. Collaborators using this add-on on \
-the same form will be able to adjust the notification settings, but will not be \
-able to disable the notification triggers set by other collaborators.";
 
+var counter =1;
 
 /**
  * Adds a custom menu to the active form to show the add-on sidebar.
@@ -54,7 +44,7 @@ function onOpen(e) {
   FormApp.getUi()
       .createAddonMenu()
       .addItem('Andmete saatmine', 'showSidebar')
-      .addItem('Show Data', 'showDataScreen')
+
       .addToUi();
 }
 
@@ -82,13 +72,9 @@ function showSidebar() {
   FormApp.getUi().showSidebar(ui);
 }
 
-function showDataScreen() {
-  var ui = HtmlService.createHtmlOutputFromFile('data')
-      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-      .setWidth(420)
-      .setHeight(270);
-  FormApp.getUi().showModalDialog(ui, 'Test-andmed');
-}
+
+
+
 
 /**
  * Save sidebar settings to this form's Properties, and update the onFormSubmit
@@ -137,75 +123,65 @@ function adjustFormSubmitTrigger() {
 }
 
 
-/**
- * Responds to a form submission event if an onFormSubmit trigger has been
- * enabled.
- *
- * @param {Object} e The event parameter created by a form
- *      submission; see
- *      https://developers.google.com/apps-script/understanding_events
- */
-function respondToFormSubmit(e) {
-  var settings = PropertiesService.getDocumentProperties();
-  var authInfo = ScriptApp.getAuthorizationInfo(ScriptApp.AuthMode.FULL);
+function notSentResponses(){
+  counter++;
+  Logger.log(counter);
+}
 
-  // Check if the actions of the trigger require authorizations that have not
-  // been supplied yet -- if so, warn the active user via email (if possible).
-  // This check is required when using triggers with add-ons to maintain
-  // functional triggers.
-  if (authInfo.getAuthorizationStatus() ==
-      ScriptApp.AuthorizationStatus.REQUIRED) {
-    // Re-authorization is required. In this case, the user needs to be alerted
-    // that they need to reauthorize; the normal trigger action is not
-    // conducted, since authorization needs to be provided first. Send at
-    // most one 'Authorization Required' email a day, to avoid spamming users
-    // of the add-on.
-    sendReauthorizationRequest();
-  } else {
-    // All required authorizations have been granted, so continue to respond to
-    // the trigger event.
-
-    // Check if the form creator needs to be notified; if so, construct and
-    // send the notification.
-    if (settings.getProperty('dataNotify') == 'true') {
-      sendCreatorNotification();
-    }
-  }
+function showNotSent(){
+Logger.log(counter);
 }
 
 
 
 function showResponses() {
+  
+  var responses = [];
+  var formId = FormApp.getActiveForm().getId();
+  var title = FormApp.getActiveForm().getTitle();
   var formResponses = FormApp.getActiveForm().getResponses();
-  Logger.log(formResponses);
-  Logger.log(formResponses.length);
-  var formResponse = formResponses[formResponses.length-1];
-  Logger.log(formResponse);
-  var itemResponses = formResponse.getItemResponses();
-  Logger.log(itemResponses);
-  for (var j = 0; j < itemResponses.length; j++) {
-    var itemResponse = itemResponses[j];
-    Logger.log(itemResponse);
-    var vastused = itemResponse.asCheckboxItem();
-    //var kys = itemResponse.getItem().getTitle();
-    Logger.log('Last response to the question "%s" was "%s"',
-               itemResponse.getItem().getTitle(),
-               itemResponse.getResponse());
-    Logger.log(itemResponse.getItem().getType());
-   if(itemResponse.getItem().getType()=='CHECKBOX'){
-               Logger.log('tere');
-               var kysimus = itemResponse.asCheckboxItem();
-               var vastused = kysimus.getChoices();
-               Logger.log(item.asListItem().getChoices());
-               Logger.log(vastused);
-     
-   }
-    
-    
-    //formData = document.createElement('span');
-    //formData.innerHTML = kys;
-    //var p = document.getElementById('p');
-    //p.appendChild(formData);
+  //Logger.log(formId);
+  //Logger.log(title);
+  //Logger.log(formResponses.length);
+  
+ 
+  for (var i = 0; i < formResponses.length; i++) {
+      var response = [];
+      var formResponse = formResponses[i];
+      var itemResponses = formResponse.getItemResponses();
+  
+      //Logger.log(itemResponses.length);
+  
+      for (var j = 0; j < itemResponses.length; j++) {
+               var answer = []
+               var itemResponse = itemResponses[j];
+        
+               //Logger.log('Question: "%s" \n Answer: "%s" \n Type: "%s"',
+               //itemResponse.getItem().getTitle(),
+               //itemResponse.getResponse(),
+               //itemResponse.getItem().getType());
+               answer.push(formId);
+               answer.push(title)
+               answer.push(itemResponse.getItem().getTitle());
+               answer.push(String(itemResponse.getResponse()));
+               answer.push(String(itemResponse.getItem().getType()));
+        
+               response.push(answer); 
+        
+      }
+      responses.push(response);
+      Logger.log(responses);
   }
+  return responses;
 }
+
+/*
+function sendId() {
+ var formId = FormApp.getActiveForm().getId();
+ var title = FormApp.getActiveForm().getTitle();
+ 
+ return [formId, title];
+  
+}
+*/
 
