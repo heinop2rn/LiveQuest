@@ -70,24 +70,35 @@
 
 
             <div class="block" id="button-bar">
-                <button class="action" id="send-data">SEND DATA</button>
+                <button class="action" id="send-data">SEND</button>
+            </div>
+            <div class='block'>
+                <input type='checkbox' id='data-sender'>
+                <label for='data-sender'>Saada infot edasi Learning Lockerisse</label>
+            </div>
+            <div class="block" id="button-bar">
+                <button class="action" id="save-settings">Save</button>
             </div>
 
         </form>
     </div>
     <script>
         $(function() {
+        
+        //            $('#save-settings').click(saveSettingsToServer);
+/*            google.script.run
+                .withSuccessHandler(loadSettings)
+                .withFailureHandler(showStatus)
+                .withUserObject($('#button-bar').get())
+                .getSettings();
+  */              
+                
             google.script.run
                 .withSuccessHandler(getResponses)
                 .withFailureHandler(showStatus)
                 .showResponses();
 
-            $('#save-settings').click(saveSettingsToServer);
-            google.script.run
-                .withSuccessHandler(loadSettings)
-                .withFailureHandler(showStatus)
-                .withUserObject($('#button-bar').get())
-                .getSettings();
+
 
             //        $('#send-data').click(saveSettingsToServer);        
             /*        google.script.run      
@@ -106,7 +117,7 @@
 
         });
 
-
+/*
         function saveSettingsToServer() {
             this.disabled = true;
             $('#status').remove();
@@ -119,28 +130,18 @@
 
             // Save the settings on the server
             google.script.run
-                .withSuccessHandler(
-                    function(msg, element) {
-                        showStatus('Saved settings', $('#button-bar'));
-                        element.disabled = false;
-                    })
-                .withFailureHandler(
-                    function(msg, element) {
-                        showStatus(msg, $('#button-bar'));
-                        element.disabled = false;
-                    })
                 .withUserObject(this)
                 .saveSettings(settings);
-            // console.log(settings);
+             console.log(settings);
         }
-
+*/
         /**
          * Callback function that populates the notification options using
          * previously saved values.
          *
          * @param {Object} settings The saved settings from the client.
          */
-        function loadSettings(settings) {
+/*        function loadSettings(settings) {
             // console.log(settings);
             if (settings.dataNotify == 'true') {
                 $('#data-sender').prop('checked', true);
@@ -153,39 +154,26 @@
             //console.log(formID);
             formTitle = inff[1];
         }
-
+*/
         function getResponses(info) {
-                console.log(info);
-                console.log(info[0].length);
-                console.log(info[0][0].length);
-                questionTitle = info[0][3][2];
-                console.log(questionTitle);
-                questionAnswer = info[0][3][3];
-                console.log(questionAnswer);
-                questionType = info[0][3][4];
-                console.log(questionType);
 
 
+                google.script.run
+                    .withSuccessHandler(loadSettings)
+                    .withFailureHandler(showStatus)
+                    .getSettings();
+                    
                 var promises = [];
-                var stmts = [];
+                var allStmts = [];
 
-                for (i = 0; i < info.length; i++) {
-                    //           console.log(info[i]);
+                for (i = 0; i < 1; i++) {
                     for (j = 0; j < info[i].length; j++) {
-                        //              console.log(info[i][j]);
                         for (k = 0; k < info[i][j].length; k++) {
-                            //              console.log(info[i][j][k]);
                             formID = info[i][j][0];
                             formTitle = info[i][j][1];
                             questionTitle = info[i][j][2];
                             questionAnswer = info[i][j][3];
                             questionType = info[i][j][4];
-                            //        console.log("Alustan saatmist");
-                            //        console.log(formID);
-                            //        console.log(formTitle);
-                            //        console.log(questionType);
-                            //        console.log(questionTitle);
-                            //        console.log(questionAnswer);
                             var stmt = {
                                 "actor": {
                                     "name": formTitle,
@@ -203,6 +191,7 @@
                                         "description": {
                                             "en-US": questionTitle
                                         },
+                                        //	"type": "http://adlnet.gov/expapi/activities/cmi.interaction",
                                         "type": "http://www.tlu.ee/~lauriv/activities/" + questionType,
                                         "interactionType": "other",
                                         "correctResponsesPattern": [questionAnswer]
@@ -211,7 +200,7 @@
 
                             };
 
-                            stmts.push(stmt);
+                            allStmts.push(stmt);
 
 
                             /*       var pr = new Promise(function (resolve, reject) {
@@ -237,7 +226,49 @@
                         }
                     }
                 }
-                console.log(stmts);
+                console.log(allStmts);
+//-----------------------------------------------------------------------------------
+                google.script.run
+                    .withSuccessHandler(loadSettings)
+                    .withFailureHandler(showStatus)
+                    .getSettings();
+                
+                function loadSettings(settings) {
+                    // console.log(settings);
+                    var lastSent = settings.lastSent;
+                    console.log(lastSent);
+                    return lastSent;
+                }
+                console.log('siin');
+                console.log(lastSent);
+//                var stmts = allStmts.splice(lastSent, allStmts.length);
+                
+                function saveSettingsToServer() {
+                    this.disabled = true;
+                    $('#status').remove();
+                    var lastSentAnswer = allStmts.length;
+                    var settings = {
+                        'lastSent': lastSentAnswer,
+                    };
+                    console.log("tiit"+settings);
+
+                    // Save the settings on the server
+                    google.script.run
+                        .withUserObject(this)
+                        .saveSettings(settings);
+                    console.log("settings: "+settings);
+                }
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+//-----------------------------------------------------------------------------------                
                 var pr = new Promise(function(resolve, reject) {
 
                     tincan.sendStatements(stmts, function(response) {
