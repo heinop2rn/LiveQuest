@@ -1,5 +1,6 @@
 # LIVE QUEST VISUALIZATION
-https://github.com/heinop2rn/LiveQuest/blob/master/Screen%20Shot%202017-06-21%20at%2008.55.07.png
+# gaze [![Build Status](https://github.com/heinop2rn/LiveQuest/blob/master/Screen%20Shot%202017-06-21%20at%2008.55.07.png)](http://www.tlu.ee/~anuxyo/LiveQuest/Webpage/VizTest/LQV.html) [![Build status]
+
 ## Info
 - This software is developed during Tallinn University School of Digital Technologies Software development Summer project.
 
