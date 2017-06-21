@@ -31,7 +31,7 @@
 var ADDON_TITLE = 'LiveQuest Visualization';
 
 
-var counter =1;
+
 
 /**
  * Adds a custom menu to the active form to show the add-on sidebar.
@@ -43,8 +43,8 @@ var counter =1;
 function onOpen(e) {
   FormApp.getUi()
       .createAddonMenu()
-      .addItem('Andmete saatmine', 'showSidebar')
-
+      .addItem('Kõikide Andmete saatmine', 'showSidebar')
+      .addItem('Puuduvate Andmete saatmine', 'showSidebar2')
       .addToUi();
 }
 
@@ -68,11 +68,16 @@ function onInstall(e) {
 function showSidebar() {
   var ui = HtmlService.createHtmlOutputFromFile('Sidebar')
       .setSandboxMode(HtmlService.SandboxMode.IFRAME)
-      .setTitle('Share data with LL');
+      .setTitle('SEND DATA TO LL');
   FormApp.getUi().showSidebar(ui);
 }
 
-
+function showSidebar2() {
+  var ui = HtmlService.createHtmlOutputFromFile('Sidebar2')
+      .setSandboxMode(HtmlService.SandboxMode.IFRAME)
+      .setTitle('SEND DATA');
+  FormApp.getUi().showSidebar(ui);
+}
 
 
 
@@ -85,7 +90,6 @@ function showSidebar() {
  */
 function saveSettings(settings) {
   PropertiesService.getDocumentProperties().setProperties(settings);
-  adjustFormSubmitTrigger();
 }
 
 function getSettings() {
@@ -96,7 +100,7 @@ function getSettings() {
 /**
  * Adjust the onFormSubmit trigger based on user's requests.
  */
-function adjustFormSubmitTrigger() {
+/*function adjustFormSubmitTrigger() {
   var form = FormApp.getActiveForm();
   var triggers = ScriptApp.getUserTriggers(form);
   var settings = PropertiesService.getDocumentProperties();
@@ -121,17 +125,7 @@ function adjustFormSubmitTrigger() {
     ScriptApp.deleteTrigger(existingTrigger);
   }
 }
-
-
-function notSentResponses(){
-  counter++;
-  Logger.log(counter);
-}
-
-function showNotSent(){
-Logger.log(counter);
-}
-
+*/
 
 
 function showResponses() {
